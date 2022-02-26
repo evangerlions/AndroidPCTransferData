@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         clipboardManager.setPrimaryClip(ClipData.newPlainText("copyTextFromPC", copyStr))
 
         val toastLen = 20
-        val toastStr = if (copyStr.length > toastLen) copyStr.take(toastLen) else copyStr
+        val toastStr = if (copyStr.length > toastLen) copyStr.take(toastLen) + "..." else copyStr
         Toast.makeText(this, "$toastStr copy success", Toast.LENGTH_LONG).show()
         Handler(Looper.getMainLooper()).post {
             finish()
