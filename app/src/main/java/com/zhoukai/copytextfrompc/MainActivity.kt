@@ -9,6 +9,8 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.*
 import android.os.Build.VERSION.SDK_INT
+import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -53,13 +55,16 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        intent.addCategory("android.intent.category.DEFAULT")
-        intent.data = Uri.parse(String.format("package:%s", applicationContext.packageName))
+        val intent = Intent(
+            Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+            Uri.parse("package:${BuildConfig.APPLICATION_ID}")
+        )
         startActivityForResult(intent, PERMISSION_REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        Log.d(TAG, "requestCode $requestCode ")
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (SDK_INT >= Build.VERSION_CODES.R) {
                 if (Environment.isExternalStorageManager()) {
